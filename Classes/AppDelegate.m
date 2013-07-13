@@ -34,7 +34,7 @@
 	//Create a bunch of rows as a test
 	for( NSInteger i = 0; i < NUM_EXAMPLE_ITEMS; i++ )
 	{
-		NSString *title = [[NSString alloc] initWithFormat: @"Item %d", i +1];
+		NSString *title = [[NSString alloc] initWithFormat: @"Item %ld", (long)i +1];
 		[_listItems addObject:title];
 		[title release];
 	}
