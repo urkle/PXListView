@@ -14,7 +14,7 @@
 #pragma mark Constants
 
 #define LISTVIEW_CELL_IDENTIFIER		@"MyListViewCell"
-#define NUM_EXAMPLE_ITEMS				10
+#define NUM_EXAMPLE_ITEMS				100
 
 
 @implementation AppDelegate
@@ -88,7 +88,8 @@
 {
 	// +++ Actually drag the items, not just dummy data.
 	[dragPasteboard declareTypes: [NSArray arrayWithObjects: NSStringPboardType, nil] owner: self];
-	[dragPasteboard setString: @"Just Testing" forType: NSStringPboardType];
+    NSString *content = [[_listItems objectsAtIndexes:rowIndexes] componentsJoinedByString:@", "];
+	[dragPasteboard setString: content forType: NSStringPboardType];
 	
 	return YES;
 }
