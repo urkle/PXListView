@@ -7,7 +7,7 @@
  *
  */
 
-enum PXListViewDropHighlight
+enum
 {
 	PXListViewDropNowhere = 0,
 	PXListViewDropOn,
