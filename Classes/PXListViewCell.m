@@ -111,6 +111,7 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
+#pragma unused(dirtyRect)
 	if(_dropHighlight == PXListViewDropAbove)
 	{
 		[[NSColor alternateSelectedControlColor] set];
