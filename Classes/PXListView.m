@@ -78,6 +78,7 @@ NSString * const PXListViewSelectionDidChange = @"PXListViewSelectionDidChange";
 	[_reusableCells release], _reusableCells = nil;
 	[_visibleCells release], _visibleCells = nil;
 	[_selectedRows release], _selectedRows = nil;
+    free(_cellYOffsets);
 	
 	[super dealloc];
 }
@@ -128,7 +129,6 @@ NSString * const PXListViewSelectionDidChange = @"PXListViewSelectionDidChange";
 	}
 	
 	[_visibleCells removeAllObjects];
-	free(_cellYOffsets);
 	
 	[_selectedRows removeAllIndexes];
     _lastSelectedRow = -1;
@@ -494,7 +494,11 @@ NSString * const PXListViewSelectionDidChange = @"PXListViewSelectionDidChange";
 		CGFloat totalHeight = 0;
 		
 		//Allocate the offset caching array
-		_cellYOffsets = (CGFloat*)malloc(sizeof(CGFloat)*_numberOfRows);
+        if (_cellYOffsetsSize != _numberOfRows) {
+            free(_cellYOffsets);
+            _cellYOffsets = (CGFloat*)malloc(sizeof(CGFloat)*_numberOfRows);
+            _cellYOffsetsSize = _numberOfRows;
+        }
 		
 		for( NSUInteger i = 0; i < _numberOfRows; i++ )
 		{

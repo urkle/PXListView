@@ -26,6 +26,7 @@
 	NSRange _visibleRange;
 	CGFloat _totalHeight;
 	CGFloat *_cellYOffsets;
+    NSUInteger _cellYOffsetsSize;
 	
 	CGFloat _cellSpacing;
 
