@@ -8,14 +8,18 @@
 
 #import "AppDelegate.h"
 
+#import "MyModel.h"
 #import "MyListViewCell.h"
+#import "MyListViewHeaderCell.h"
 
 
 #pragma mark Constants
 
 #define LISTVIEW_CELL_IDENTIFIER		@"MyListViewCell"
-#define NUM_EXAMPLE_ITEMS				100
+#define LISTVIEW_HEADER_CELL_IDENTIFIER		@"MyListViewHeaderCell"
 
+#define NUM_EXAMPLE_SECTIONS            5
+#define NUM_EXAMPLE_ITEMS               10
 
 @implementation AppDelegate
 
@@ -31,14 +35,24 @@
 	
 	_listItems = [[NSMutableArray alloc] init];
 
+
 	//Create a bunch of rows as a test
-	for( NSInteger i = 0; i < NUM_EXAMPLE_ITEMS; i++ )
-	{
-		NSString *title = [[NSString alloc] initWithFormat: @"Item %ld", (long)i +1];
-		[_listItems addObject:title];
-		[title release];
-	}
-	
+    for( NSInteger s = 0; s < NUM_EXAMPLE_SECTIONS; ++s)
+    {
+        MyModel *model = [[[MyModel alloc] init] autorelease];
+        model.title = [NSString stringWithFormat:@"Section %ld", (long)(s + 1)];
+        model.section = YES;
+        [_listItems addObject:model];
+
+        for( NSInteger i = 0; i < NUM_EXAMPLE_ITEMS; i++ )
+        {
+            model = [[[MyModel alloc] init] autorelease];
+            model.title = [NSString stringWithFormat: @"Item %ld", (long)((s * NUM_EXAMPLE_ITEMS) + i + 1)];
+            model.section = NO;
+            [_listItems addObject:model];
+        }
+    }
+
 	[listView reloadData];
 }
 
@@ -65,16 +79,31 @@
 
 - (PXListViewCell*)listView:(PXListView*)aListView cellForRow:(NSUInteger)row
 {
-	MyListViewCell *cell = (MyListViewCell*)[aListView dequeueCellWithReusableIdentifier:LISTVIEW_CELL_IDENTIFIER];
-	
-	if(!cell) {
-		cell = [MyListViewCell cellLoadedFromNibNamed:@"MyListViewCell" reusableIdentifier:LISTVIEW_CELL_IDENTIFIER];
-	}
-	
-	// Set up the new cell:
-	[[cell titleLabel] setStringValue:[_listItems objectAtIndex:row]];
-	
-	return cell;
+    MyModel *obj = [_listItems objectAtIndex:row];
+
+    if (obj.isSection) {
+        MyListViewHeaderCell *cell = (MyListViewHeaderCell*)[aListView dequeueCellWithReusableIdentifier:LISTVIEW_HEADER_CELL_IDENTIFIER];
+
+        if(!cell) {
+            cell = [MyListViewHeaderCell cellLoadedFromNibNamed:@"MyListViewHeaderCell" reusableIdentifier:LISTVIEW_HEADER_CELL_IDENTIFIER];
+        }
+
+        // Set up the new cell:
+        [[cell titleLabel] setStringValue: obj.title];
+
+        return cell;
+    } else {
+        MyListViewCell *cell = (MyListViewCell*)[aListView dequeueCellWithReusableIdentifier:LISTVIEW_CELL_IDENTIFIER];
+        
+        if(!cell) {
+            cell = [MyListViewCell cellLoadedFromNibNamed:@"MyListViewCell" reusableIdentifier:LISTVIEW_CELL_IDENTIFIER];
+        }
+
+        // Set up the new cell:
+        [[cell titleLabel] setStringValue: obj.title];
+        
+        return cell;
+    }
 }
 
 - (CGFloat)listView:(PXListView*)aListView heightOfRow:(NSUInteger)row
@@ -93,7 +122,7 @@
 {
 	// +++ Actually drag the items, not just dummy data.
 	[dragPasteboard declareTypes: [NSArray arrayWithObjects: NSStringPboardType, nil] owner: self];
-    NSString *content = [[_listItems objectsAtIndexes:rowIndexes] componentsJoinedByString:@", "];
+    NSString *content = [[[_listItems objectsAtIndexes:rowIndexes] valueForKey:@"title"] componentsJoinedByString:@", "];
 	[dragPasteboard setString: content forType: NSStringPboardType];
 	
 	return YES;

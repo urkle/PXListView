@@ -17,8 +17,10 @@
 		D27858D511B1B5FC00F1CF30 /* PXListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D27858D411B1B5FC00F1CF30 /* PXListViewCell.m */; };
 		D278592411B1BA6C00F1CF30 /* PXListDocumentView.m in Sources */ = {isa = PBXBuildFile; fileRef = D278592311B1BA6C00F1CF30 /* PXListDocumentView.m */; };
 		D278597011B1BBE800F1CF30 /* MyListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D278596F11B1BBE800F1CF30 /* MyListViewCell.m */; };
-		D279A64411B4E95600771B2A /* PXListView+Private.h in Resources */ = {isa = PBXBuildFile; fileRef = D279A64311B4E95600771B2A /* PXListView+Private.h */; };
 		D2BED6C01320E08D00E1D0D3 /* MyListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D2BED6BF1320E08D00E1D0D3 /* MyListViewCell.xib */; };
+		DBFE027518492151002521E4 /* MyListViewHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFE027418492151002521E4 /* MyListViewHeaderCell.m */; };
+		DBFE027718492171002521E4 /* MyListViewHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBFE027618492171002521E4 /* MyListViewHeaderCell.xib */; };
+		DBFE027A18492532002521E4 /* MyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFE027918492532002521E4 /* MyModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +52,11 @@
 		D279A65E11B4EB1200771B2A /* README.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.markdown; sourceTree = "<group>"; wrapsLines = 1; };
 		D279A6DD11B4EFCD00771B2A /* PXListViewCell+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PXListViewCell+Private.h"; path = "Classes/PXListViewCell+Private.h"; sourceTree = "<group>"; };
 		D2BED6BF1320E08D00E1D0D3 /* MyListViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MyListViewCell.xib; path = Resources/MyListViewCell.xib; sourceTree = "<group>"; };
+		DBFE02721849213A002521E4 /* MyListViewHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyListViewHeaderCell.h; path = Classes/MyListViewHeaderCell.h; sourceTree = "<group>"; };
+		DBFE027418492151002521E4 /* MyListViewHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyListViewHeaderCell.m; path = Classes/MyListViewHeaderCell.m; sourceTree = "<group>"; };
+		DBFE027618492171002521E4 /* MyListViewHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MyListViewHeaderCell.xib; path = Resources/MyListViewHeaderCell.xib; sourceTree = "<group>"; };
+		DBFE027818492532002521E4 /* MyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyModel.h; path = Classes/MyModel.h; sourceTree = "<group>"; };
+		DBFE027918492532002521E4 /* MyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyModel.m; path = Classes/MyModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +149,8 @@
 			children = (
 				D26669C911B1B2F1007597F1 /* AppDelegate.h */,
 				D26669CA11B1B2F1007597F1 /* AppDelegate.m */,
+				DBFE027818492532002521E4 /* MyModel.h */,
+				DBFE027918492532002521E4 /* MyModel.m */,
 				D26669D011B1B302007597F1 /* MainMenu.xib */,
 				D25DDA7C133F56C10086783B /* Custom Cell */,
 				29B97315FDCFA39411CA2CEA /* Supporting Files */,
@@ -156,6 +165,9 @@
 				D278596E11B1BBE800F1CF30 /* MyListViewCell.h */,
 				D278596F11B1BBE800F1CF30 /* MyListViewCell.m */,
 				D2BED6BF1320E08D00E1D0D3 /* MyListViewCell.xib */,
+				DBFE02721849213A002521E4 /* MyListViewHeaderCell.h */,
+				DBFE027418492151002521E4 /* MyListViewHeaderCell.m */,
+				DBFE027618492171002521E4 /* MyListViewHeaderCell.xib */,
 			);
 			name = "Custom Cell";
 			sourceTree = "<group>";
@@ -231,8 +243,8 @@
 			files = (
 				D26669D211B1B302007597F1 /* InfoPlist.strings in Resources */,
 				D26669D311B1B302007597F1 /* MainMenu.xib in Resources */,
-				D279A64411B4E95600771B2A /* PXListView+Private.h in Resources */,
 				D2BED6C01320E08D00E1D0D3 /* MyListViewCell.xib in Resources */,
+				DBFE027718492171002521E4 /* MyListViewHeaderCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,12 +255,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBFE027A18492532002521E4 /* MyModel.m in Sources */,
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				D26669CB11B1B2F1007597F1 /* AppDelegate.m in Sources */,
 				D27858D211B1B5EA00F1CF30 /* PXListView.m in Sources */,
 				D27858D511B1B5FC00F1CF30 /* PXListViewCell.m in Sources */,
 				D278592411B1BA6C00F1CF30 /* PXListDocumentView.m in Sources */,
 				D278597011B1BBE800F1CF30 /* MyListViewCell.m in Sources */,
+				DBFE027518492151002521E4 /* MyListViewHeaderCell.m in Sources */,
 				D25DDA7F133F58A20086783B /* PXListView+UserInteraction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -302,7 +316,6 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				INFOPLIST_FILE = "Demo/Resources/PXListView-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -334,7 +347,6 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				INFOPLIST_FILE = "Demo/Resources/PXListView-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
