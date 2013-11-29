@@ -49,6 +49,11 @@
 	[super dealloc];
 }
 
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
+{
+    return YES;
+}
+
 #pragma mark -
 #pragma mark List View Delegate Methods
 
