@@ -24,7 +24,7 @@ typedef NSInteger PXIsDragStartResult;
 
 - (void)cacheCellLayout;
 - (void)layoutCells;
-- (void)layoutSectionCell;
+- (void)layoutSectionCell:(BOOL)topChanged;
 - (void)layoutCell:(PXListViewCell*)cell atRow:(NSUInteger)row;
 
 - (void)updateSectionCell:(NSUInteger)topRow;

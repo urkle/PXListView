@@ -306,7 +306,6 @@ NSString * const PXListViewSelectionDidChange = @"PXListViewSelectionDidChange";
         NSUInteger activeRow = [_sectionRows indexLessThanOrEqualToIndex:topRow];
 
         if (!_sectionCell || [_sectionCell row] != activeRow) {
-            NSLog(@"Found new section %ld for row %ld", activeRow, topRow);
             [self enqueueCell:_sectionCell];
             [_sectionCell removeFromSuperview];
             _sectionCell = [self.delegate listView:self cellForRow:activeRow];
@@ -322,6 +321,7 @@ NSString * const PXListViewSelectionDidChange = @"PXListViewSelectionDidChange";
 	
 	//Have the cells we need to display actually changed?
 	if((visibleRange.location == _currentRange.location) && (NSMaxRange(visibleRange) == NSMaxRange(_currentRange))) {
+        [self layoutSectionCell: NO];
 		return;
 	}
 	
@@ -379,7 +379,7 @@ NSString * const PXListViewSelectionDidChange = @"PXListViewSelectionDidChange";
 	}
 	
 	_currentRange = visibleRange;
-    [self layoutSectionCell];
+    [self layoutSectionCell: YES];
 }
 
 #pragma mark -
@@ -561,7 +561,7 @@ NSString * const PXListViewSelectionDidChange = @"PXListViewSelectionDidChange";
         [cell layoutSubviews];
 	}
 
-    [self layoutSectionCell];
+    [self layoutSectionCell: YES];
 
 	NSRect bounds = [self bounds];
 	CGFloat documentHeight = _totalHeight>NSHeight(bounds)?_totalHeight:(NSHeight(bounds) -2);
@@ -570,14 +570,46 @@ NSString * const PXListViewSelectionDidChange = @"PXListViewSelectionDidChange";
 	[[self documentView] setFrame:NSMakeRect(0.0f, 0.0f, NSWidth([self contentViewRect]), documentHeight)];
 }
 
-- (void)layoutSectionCell
+- (void)layoutSectionCell:(BOOL)topChanged
 {
     if (_sectionCell) {
-        [self  addSubview:_sectionCell positioned:NSWindowAbove relativeTo:[self contentView]];
-        NSRect frame = [self rectOfRow:[_sectionCell row]];
+        BOOL changed = NO;
+        if (topChanged) {
+            [self  addSubview:_sectionCell positioned:NSWindowAbove relativeTo:[self contentView]];
+            changed = YES;
+        }
+        NSUInteger currentRow = [_sectionCell row];
+        NSUInteger topRow = _currentRange.location;
+
+        NSRect frame = [self rectOfRow:currentRow];
         frame.origin.y = 0;
-        [_sectionCell setFrame:frame];
-        [_sectionCell setHidden:NO];
+
+        if (topRow == 0 && topRow == currentRow)
+        {
+            NSRect visibleRect = [[self contentView] documentVisibleRect];
+            if (visibleRect.origin.y <= 0) {
+//                NSLog(@"Partial Scrolling Top: %f", visibleRect.origin.y);
+                frame.origin.y = -visibleRect.origin.y;
+                changed = YES;
+            }
+        }
+
+        if ( (topRow + 1) < _numberOfRows && [_sectionRows containsIndex:(topRow + 1)])
+        {
+            NSRect nextRect = [self rectOfRow:topRow + 1];
+            NSRect visibleRect = [[self contentView] documentVisibleRect];
+            CGFloat prevTop = nextRect.origin.y - [self cellSpacing] - frame.size.height;
+            CGFloat nextY = prevTop - visibleRect.origin.y;
+            if (nextY <= 0) {
+//            NSLog(@"Partial Scrolling below?: %ld @ offset %f", topRow + 1, nextY);
+                frame.origin.y = nextY;
+                changed = YES;
+            }
+        }
+        if (changed) {
+            [_sectionCell setFrame:frame];
+            [_sectionCell setHidden:NO];
+        }
     }
 }
 
@@ -604,7 +636,7 @@ NSString * const PXListViewSelectionDidChange = @"PXListViewSelectionDidChange";
 		
 		[self cacheCellLayout];
 		[self addCellsFromVisibleRange];
-        [self layoutSectionCell];
+        [self layoutSectionCell: YES];
 		
 		_currentRange = [self visibleRange];
 	}
