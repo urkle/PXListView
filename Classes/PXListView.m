@@ -609,6 +609,10 @@ NSString * const PXListViewSelectionDidChange = @"PXListViewSelectionDidChange";
             }
         }
         if (changed) {
+            NSRect content = [[self contentView] frame];
+            frame.origin.x += content.origin.x;
+            frame.origin.y += content.origin.y;
+
             [_sectionCell setFrame:frame];
             [_sectionCell setHidden:NO];
         }
