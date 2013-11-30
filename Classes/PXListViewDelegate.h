@@ -21,6 +21,7 @@ extern NSString * const PXListViewSelectionDidChange;
 - (PXListViewCell*)listView:(PXListView*)aListView cellForRow:(NSUInteger)row;
 
 @optional
+- (BOOL)listView:(PXListView*)aListView rowIsSectionHeader:(NSUInteger)rowIndex;
 - (void)listViewSelectionDidChange:(NSNotification*)aNotification;
 - (void)listView:(PXListView*)aListView rowDoubleClicked:(NSUInteger)rowIndex;
 

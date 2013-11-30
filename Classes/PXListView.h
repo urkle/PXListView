@@ -19,7 +19,10 @@
 	NSMutableArray *_reusableCells;
 	NSMutableArray *_visibleCells;
 	NSRange _currentRange;
-	
+
+    NSMutableIndexSet *_sectionRows;
+    PXListViewCell *_sectionCell;
+
 	NSUInteger _numberOfRows;
 	NSMutableIndexSet *_selectedRows;
 	

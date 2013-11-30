@@ -108,7 +108,14 @@
 
 - (CGFloat)listView:(PXListView*)aListView heightOfRow:(NSUInteger)row
 {
-	return 50;
+    MyModel *obj = [_listItems objectAtIndex:row];
+	return obj.isSection ? 30 : 50;
+}
+
+- (BOOL)listView:(PXListView *)aListView rowIsSectionHeader:(NSUInteger)row
+{
+    MyModel *obj = [_listItems objectAtIndex:row];
+    return obj.isSection;
 }
 
 - (void)listViewSelectionDidChange:(NSNotification*)aNotification
