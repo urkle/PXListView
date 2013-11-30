@@ -208,7 +208,9 @@ NSString * const PXListViewSelectionDidChange = @"PXListViewSelectionDidChange";
 	BOOL inRange = NO;
 	for(NSUInteger i = 0; i < _numberOfRows; i++)
 	{
-		if(NSIntersectsRect([self rectOfRow:i], visibleRect))
+        NSRect r = [self rectOfRow:i];
+        r.size.height += [self cellSpacing];
+		if(NSIntersectsRect(r, visibleRect))
 		{
 			if(startRow == NSUIntegerMax)
 			{
