@@ -384,6 +384,11 @@ NSString * const PXListViewSelectionDidChange = @"PXListViewSelectionDidChange";
     [self layoutSectionCell: YES];
 }
 
+- (BOOL)isRowSectionHeader:(NSUInteger)row
+{
+    return [_sectionRows containsIndex:row];
+}
+
 #pragma mark -
 #pragma mark Selection
 

@@ -93,6 +93,11 @@
 	return [[[self listView] selectedRows] containsIndex:[self row]];
 }
 
+- (BOOL)isSectionHeader
+{
+    return [[self listView] isRowSectionHeader: [self row]];
+}
+
 #pragma mark -
 #pragma mark Drag & Drop
 

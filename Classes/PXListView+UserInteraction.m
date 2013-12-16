@@ -115,11 +115,15 @@ static PXIsDragStartResult PXIsDragStart( NSEvent *startEvent, NSTimeInterval th
 #pragma unused(sender)
     if([_selectedRows count]>0) {
         NSUInteger firstIndex = [_selectedRows firstIndex];
-        
-        if(firstIndex>0) {
-            NSUInteger newRow = firstIndex-1;
-            [self setSelectedRow:newRow];
-            [self scrollRowToVisible:newRow];
+
+        NSInteger newRow = firstIndex - 1;
+        while (newRow >= 0) {
+            if (![self isRowSectionHeader:newRow]) {
+                [self setSelectedRow:newRow];
+                [self scrollRowToVisible:newRow];
+                break;
+            }
+            --newRow;
         }
     }
 }
@@ -130,11 +134,15 @@ static PXIsDragStartResult PXIsDragStart( NSEvent *startEvent, NSTimeInterval th
 #pragma unused(sender)
     if([_selectedRows count]>0) {
         NSUInteger lastIndex = [_selectedRows lastIndex];
-        
-        if(lastIndex<(_numberOfRows-1)) {
-            NSUInteger newRow = lastIndex+1;
-            [self setSelectedRow:newRow];
-            [self scrollRowToVisible:newRow];
+
+        NSUInteger newRow = lastIndex + 1;
+        while (newRow < _numberOfRows) {
+            if (![self isRowSectionHeader:newRow]) {
+                [self setSelectedRow:newRow];
+                [self scrollRowToVisible:newRow];
+                break;
+            }
+            ++newRow;
         }
     }
 }
@@ -172,6 +180,7 @@ static PXIsDragStartResult PXIsDragStart( NSEvent *startEvent, NSTimeInterval th
     BOOL		tryDraggingAgain = YES;
     BOOL		shouldToggle = theEvent == nil || ([theEvent modifierFlags] & NSCommandKeyMask) || ([theEvent modifierFlags] & NSShiftKeyMask);	// +++ Shift should really be a continuous selection.
     BOOL		isSelected = [_selectedRows containsIndex: [theCell row]];
+    BOOL		isSectionHeader = [_sectionRows containsIndex:[theCell row]];
     NSIndexSet	*clickedIndexSet = [NSIndexSet indexSetWithIndex: [theCell row]];
     
     // If a cell is already selected, we can drag it out, in which case we shouldn't toggle it:
@@ -195,6 +204,11 @@ static PXIsDragStartResult PXIsDragStart( NSEvent *startEvent, NSTimeInterval th
             [self selectRowIndexes: clickedIndexSet byExtendingSelection: NO];
             tryDraggingAgain = NO;
         }
+    }
+    else if( isSectionHeader )
+    {
+        // if it's a section header don't select it
+        tryDraggingAgain = NO;
     }
     else if( shouldToggle && _allowsEmptySelection )
     {
