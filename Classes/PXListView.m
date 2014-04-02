@@ -625,6 +625,7 @@ NSString * const PXListViewSelectionDidChange = @"PXListViewSelectionDidChange";
             frame.origin.y += content.origin.y;
 
             [_sectionCell setFrame:frame];
+            [_sectionCell layoutSubviews];
             [_sectionCell setHidden:NO];
         }
     }
