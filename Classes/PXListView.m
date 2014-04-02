@@ -131,8 +131,14 @@ NSString * const PXListViewSelectionDidChange = @"PXListViewSelectionDidChange";
 		[_reusableCells addObject:cell];
 		[cell setHidden:YES];
 	}
-	
 	[_visibleCells removeAllObjects];
+	if (_sectionCell)
+	{
+		[_sectionCell removeFromSuperview];
+		[_reusableCells addObject:_sectionCell];
+		[_sectionCell setHidden:YES];
+		_sectionCell = nil;
+	}
 	
 	[_selectedRows removeAllIndexes];
     _lastSelectedRow = -1;
