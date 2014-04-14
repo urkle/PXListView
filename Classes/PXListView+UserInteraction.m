@@ -259,6 +259,10 @@ static PXIsDragStartResult PXIsDragStart( NSEvent *startEvent, NSTimeInterval th
 
 - (BOOL)attemptDragWithMouseDown:(NSEvent*)theEvent inCell:(PXListViewCell*)theCell
 {
+	BOOL supportsDrag = [_delegate respondsToSelector: @selector(listView:writeRowsWithIndexes:toPasteboard:)];
+
+	if (!supportsDrag) return NO;
+
 	PXIsDragStartResult	dragResult = PXIsDragStart( theEvent, 0.0 );
 	if( dragResult != PXIsDragStartMouseReleased /*&& (_verticalMotionCanBeginDrag || dragResult != PXIsDragStartMouseMovedVertically)*/ )	// Was a drag, not a click? Cool!
 	{
@@ -266,7 +270,7 @@ static PXIsDragStartResult PXIsDragStart( NSEvent *startEvent, NSTimeInterval th
 		NSImage			*dragImage = [self dragImageForRowsWithIndexes: _selectedRows event: theEvent clickedCell: theCell offset: &dragImageOffset];
 		NSPasteboard	*dragPasteboard = [NSPasteboard pasteboardWithUniqueName];
 		
-		if( [_delegate respondsToSelector: @selector(listView:writeRowsWithIndexes:toPasteboard:)]
+		if( supportsDrag
            and [_delegate listView: self writeRowsWithIndexes: _selectedRows toPasteboard: dragPasteboard] )
 		{
 			[theCell dragImage: dragImage at: dragImageOffset offset: NSZeroSize event: theEvent
