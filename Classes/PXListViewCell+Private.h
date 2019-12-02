@@ -8,7 +8,11 @@
 
 @interface PXListViewCell ()
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wobjc-multiple-method-names"
+
 @property (readwrite, copy) NSString *reusableIdentifier;
 @property (readwrite, assign) NSUInteger row;
 
+#pragma GCC diagnostic pop
 @end

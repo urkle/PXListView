@@ -64,6 +64,8 @@ static PXIsDragStartResult PXIsDragStart( NSEvent *startEvent, NSTimeInterval th
 					}
 					break;
 				}
+				default:
+					break;
 			}
 		}
 		
@@ -273,9 +275,11 @@ static PXIsDragStartResult PXIsDragStart( NSEvent *startEvent, NSTimeInterval th
 		if( supportsDrag
            and [_delegate listView: self writeRowsWithIndexes: _selectedRows toPasteboard: dragPasteboard] )
 		{
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 			[theCell dragImage: dragImage at: dragImageOffset offset: NSZeroSize event: theEvent
                     pasteboard: dragPasteboard source: self slideBack: YES];
-			
+#pragma GCC diagnostic pop
 			return YES;
 		}
 	}

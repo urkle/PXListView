@@ -488,12 +488,22 @@ NSString * const PXListViewSelectionDidChange = @"PXListViewSelectionDidChange";
 {
 	NSRect frame = [self frame];
 	NSSize frameSize = NSMakeSize(NSWidth(frame), NSHeight(frame));
-	BOOL hasVertScroller = NSHeight(frame) < _totalHeight;
+	
+	NSControlSize myControlSize = NSControlSizeRegular;
+	NSScrollerStyle myScrollerStyle = NSScrollerStyleLegacy;
 	NSSize availableSize = [[self class] contentSizeForFrameSize:frameSize
+          						horizontalScrollerClass:nil
+            					verticalScrollerClass:[[self verticalScroller] class]
+                       			borderType:[self borderType]
+                      			controlSize:myControlSize
+                    			scrollerStyle:myScrollerStyle];
+
+
+	/*NSSize availableSize = [[self class] contentSizeForFrameSize:frameSize
 										   hasHorizontalScroller:NO
 											 hasVerticalScroller:hasVertScroller
 													  borderType:[self borderType]];
-	
+	*/
 	return NSMakeRect(0.0f, 0.0f, availableSize.width, availableSize.height);
 }
 
@@ -562,7 +572,11 @@ NSString * const PXListViewSelectionDidChange = @"PXListViewSelectionDidChange";
 	//Set the frames of the cells
 	for(id cell in _visibleCells)
 	{
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wobjc-multiple-method-names"
 		NSInteger row = [cell row];
+#pragma GCC diagnostic pop
+
 		[cell setFrame:[self rectOfRow:row]];
         [cell layoutSubviews];
 	}
